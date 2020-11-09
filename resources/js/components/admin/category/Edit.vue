@@ -6,7 +6,8 @@
             <div class="col-8">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add New Category</h3>
+                        <h3 class="card-title">Edit Category</h3>
+
                     </div>
                     <!-- /.card-header -->
 
@@ -22,7 +23,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                            <button type="submit" class="btn btn-primary"  @click.prevent="addCategory()">Save</button>
+                            <button type="submit" class="btn btn-primary"  @click.prevent="updateCategory()">Update</button>
                         </div>
                         </div>
                         
@@ -42,7 +43,13 @@
 
 <script>
 export default {
-    name: "List",
+    name: "Edit",
+    mounted(){
+        axios.get(`/editcategory/${this.$route.params.categoryid}`)
+        .then((res) => {
+            this.form.fill(res.data.category)
+        })
+    },
     data(){
         return {
       // Create a new form instance
@@ -52,13 +59,13 @@ export default {
     }
     },
     methods: {
-        addCategory(){
-           this.form.post('/add-category')
+        updateCategory(){
+           this.form.post(`/update-category/${this.$route.params.categoryid}`)
            .then((res) => {
                this.$router.push('/category-list')
                Toast.fire({
                 icon: 'success',
-                title: 'Category Added successfully'
+                title: 'Category Updated successfully'
                 })
            })
         }
