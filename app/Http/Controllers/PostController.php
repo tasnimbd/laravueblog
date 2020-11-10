@@ -10,7 +10,9 @@ use App\Models\User;
 class PostController extends Controller
 {
     public function all_post(){
-        $user = User::with('posts')->get();
-        return $user;
+        $posts = Post::with('user', 'category')->get();
+        return response()->json([
+            'posts' => $posts
+        ], 200);
     }
 }
