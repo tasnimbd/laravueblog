@@ -66,7 +66,6 @@ export default {
             axios.get('/category/'+id)
             .then(() => {
                 this.$store.dispatch("allcategory")
-                this.$router.push('/category-list')
                 Toast.fire({
                     icon: 'success',
                     title: 'Category Deleted successfully'

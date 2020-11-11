@@ -31,12 +31,12 @@
                         <td>{{index+1}}</td>
                         <td v-if="post.user">{{post.user.name}}</td>
                         <td v-if="post.category">{{post.category.cat_name}}</td>
-                        <td><img :src="post.post_photo" width="70" height="50" alt=""/></td>
+                        <td><img :src="postImagePath(post.post_photo)" width="70" height="50" alt=""/></td>
                         <td>{{post.post_title}}</td>
                         <td>{{post.post_des | sortlength(100, "...")}}</td>
                         <td>
-                            <button class="btn btn-success">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                             <router-link class="btn btn-success" :to="`/edit-post/${post.id}`">Edit</router-link>
+                            <button class="btn btn-danger" @click.prevent="deletePost(post.id)">Delete</button>
                         </td>
                     </tr>
                     
@@ -68,7 +68,22 @@ export default {
         }
     },
     methods: {
+        postImagePath(img){
+            return 'uploadimage/'+img;
+        },
+        deletePost(id){
+            axios.get('/deletepost/'+id)
+            .then(() => {
+                this.$store.dispatch("allpost")
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Post Deleted successfully'
+                    })
+           })
+           .catch(() => {
 
+           })
+        }
     }
 }
 </script>
