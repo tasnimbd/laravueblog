@@ -7,6 +7,9 @@ import EditCategory from './components/admin/category/Edit.vue'
 import PostList from './components/admin/post/List.vue'
 import AddPost from './components/admin/post/New.vue'
 import EditPost from './components/admin/post/Edit.vue'
+//frontend
+import PublicHome from './components/public/PublicHome.vue'
+import SingleBlog from './components/public/blog/SingleBlog.vue'
 
 export const routes = [
     {
@@ -36,6 +39,16 @@ export const routes = [
     {
         path: '/edit-post/:postid',
         component: EditPost
+    },
+
+    //frontend routes
+    {
+        path: '/',
+        component: PublicHome
+    },
+    {
+        path: '/:slug',
+        component: SingleBlog
     }
 
   ]

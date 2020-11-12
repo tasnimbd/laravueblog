@@ -25,16 +25,27 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::get('/{anypath}', 'HomeController@index')->where('path', '.*');
 
-//category
-Route::post('/add-category', 'CategoryController@saveCategory');
-Route::get('/category', 'CategoryController@all_category');
-Route::get('/category/{id}', 'CategoryController@delete_category');
-Route::get('/editcategory/{id}', 'CategoryController@edit_category');
-Route::post('/update-category/{id}', 'CategoryController@update_category');
+//group middleware
+Route::group(['middleware' => ['auth']], function () {
+    //category
+    Route::post('/add-category', 'CategoryController@saveCategory');
+    Route::get('/category', 'CategoryController@all_category');
+    Route::get('/category/{id}', 'CategoryController@delete_category');
+    Route::get('/editcategory/{id}', 'CategoryController@edit_category');
+    Route::post('/update-category/{id}', 'CategoryController@update_category');
 
-//post
-Route::get('/post', 'PostController@all_post');
-Route::post('/savepost', 'PostController@save_post');
-Route::get('/deletepost/{id}', 'PostController@delete_post');
-Route::get('/post/{id}', 'PostController@edit_post');
-Route::post('/update-post/{id}', 'PostController@update_post');
+    //post
+    Route::get('/post', 'PostController@all_post');
+    Route::post('/savepost', 'PostController@save_post');
+    Route::get('/deletepost/{id}', 'PostController@delete_post');
+    Route::get('/post/{id}', 'PostController@edit_post');
+    Route::post('/update-post/{id}', 'PostController@update_post');
+});
+
+//frontend routes
+Route::get('/blogpost', 'BlogController@get_all_post');
+Route::get('/categories', 'BlogController@get_all_category');
+Route::get('/{slug}', 'BlogController@get_post_by_slug');
+
+
+

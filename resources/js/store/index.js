@@ -3,7 +3,11 @@ import Axios from "axios"
 export default {
     state: {
         category: [],
-        post:[]
+        post:[],
+        blogpost:[],
+        singlepost:[],
+        publiccategory:[]
+
     },
     getters: {
         getCategory(state) {
@@ -11,6 +15,15 @@ export default {
         },
         getPost(state) {
             return state.post
+        },
+        getblogPost(state) {
+            return state.blogpost
+        },
+        singlepost(state){
+            return state.singlepost
+        },
+        publiccategory(state){
+            return state.publiccategory
         }
     },
     actions: {
@@ -25,6 +38,24 @@ export default {
             .then((res)=>{
                 context.commit('posts', res.data.posts)
             })
+        },
+        allblogpost(context){
+            axios.get('/blogpost')
+            .then((res)=>{
+                context.commit('blogposts', res.data.blogposts)
+            })
+        },
+        getPostBySlug(context,payload){
+            axios.get(payload)
+            .then((res) => {
+                context.commit('signlePost', res.data.post)
+            })
+        },
+        getallpublicCategory(context){
+            axios.get('/categories')
+            .then((res)=>{
+                context.commit('publiccategories', res.data.categories)
+            })
         }
     },
     mutations: {
@@ -33,6 +64,15 @@ export default {
         },
         posts(state, data) {
             return state.post = data
+        },
+        blogposts(state, data) {
+            return state.blogpost = data
+        },
+        signlePost(state, payload) {
+            return state.singlepost = payload
+        },
+        publiccategories(state, payload) {
+            return state.publiccategory = payload
         }
     }
 }
