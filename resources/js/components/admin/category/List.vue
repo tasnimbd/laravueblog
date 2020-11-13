@@ -17,6 +17,13 @@
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
+                        <th>
+                            <select name="" id="" @change="deleteSelected" v-model="select">
+                                <option value="">Select</option>
+                                <option value="">Delete All</option>
+                            </select>
+                            
+                        </th>
                         <th>SL</th>
                         <th>Category Name</th>
                         <th>Date</th>
@@ -25,6 +32,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="(category,index) in getallCategory" :key="category.id">
+                        <td><input type="checkbox" v-model="categoryItem" :value="category.id"></td>
                         <td>{{index+1}}</td>
                         <td>{{category.cat_name}}</td>
                         <td>{{category.created_at | timeformat}}</td>
@@ -53,6 +61,13 @@
 <script>
 export default {
     name: "List",
+    data(){
+        return{
+            categoryItem:[],
+            select:''
+            
+        }
+    },
     mounted(){
          this.$store.dispatch("allcategory")
     },
@@ -75,6 +90,17 @@ export default {
                Toast.fire({
                     icon: 'fail',
                     title: 'Something Went Wrong'
+                    })
+           })
+        },
+
+        deleteSelected(){
+            axios.get('/deletecategory/'+this.categoryItem)
+            .then(() => {
+                this.$store.dispatch("allcategory")
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Category Deleted successfully'
                     })
            })
         }

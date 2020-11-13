@@ -22,12 +22,12 @@
         <div class="container">
             <div class="row">
             <div class="span8">
-                <article v-for="post in getallblogPost" :key="post.id">
+                <article v-for="(post, i) in getallblogPost" :key="i">
                     <div class="row">
                         <div class="span8">
                         <div class="post-image">
                             <div class="post-heading">
-                            <h3><a href="#">{{post.post_title}}</a></h3>
+                            <h3><router-link :to="`/${post.slug}`">{{post.post_title}}</router-link></h3>
                             </div>
                             <img :src="`uploadimage/${post.post_photo}`" :alt="`${post.post_title}`" />
                         </div>
@@ -35,10 +35,12 @@
                         <div class="bottom-article">
                             <ul class="meta-post">
                             <li><i class="icon-calendar"></i><a href="#"> {{post.created_at | timeformat}}</a></li>
-                            <li v-if="post.user"><i class="icon-user"></i><a href="#"> {{post.user.name}}</a></li>
-                            <li v-if="post.category"><i class="icon-folder-open"></i><a href="#"> {{post.category.cat_name}}</a></li>
+                            <li v-if="post.name"><i class="icon-user"></i><a href="#"> {{post.name}}</a></li>
+                            <li v-if="post.cat_name"><i class="icon-folder-open"></i>
+                                <router-link :to="`/category/${post.cat_slug}`">{{post.cat_name}}</router-link>
+                            </li>
                             </ul>
-                            <router-link :to="`${post.slug}`" class="pull-right">Continue reading <i class="icon-angle-right"></i></router-link>
+                            <router-link :to="`/${post.slug}`" class="pull-right">Continue reading <i class="icon-angle-right"></i></router-link>
                         </div>
                         </div>
                     </div>
@@ -73,8 +75,20 @@ export default {
         }
     },
     methods: {
-        
+        getAllCategoryPost(){
+            if(this.$route.params.cat_slug != null){
+                 this.$store.dispatch("getPostByCatId", this.$route.params.cat_slug)
+            }else{
+               this.$store.dispatch("allblogpost") 
+            }
+           
+        }
 
+    },
+    watch: {
+        $route(to, from){
+            this.getAllCategoryPost();
+        }
     }
 }
 </script>

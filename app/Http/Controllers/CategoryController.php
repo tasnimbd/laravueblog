@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,6 +15,7 @@ class CategoryController extends Controller
         ]);
         $category = New Category();
         $category->cat_name = $req->cat_name;
+        $category->cat_slug = Str::slug($req->cat_name);
         $category->save();
         return ['message' => 'ok'];
     }
@@ -48,5 +50,15 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->cat_name = $req->cat_name;
         $category->save();
+    }
+
+    public function delete_multiple_category($ids){
+        $all_id = explode(',', $ids);
+        foreach( $all_id as $id){
+            $category = Category::find($id);
+            if($category != null){
+                $category->delete();
+            }
+        }
     }
 }

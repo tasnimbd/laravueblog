@@ -27,10 +27,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(post,index) in getallpost" :key="post.id">
+                    <tr v-for="(post,index) in getallpost" :key="index">
                         <td>{{index+1}}</td>
-                        <td v-if="post.user">{{post.user.name}}</td>
-                        <td v-if="post.category">{{post.category.cat_name}}</td>
+                        <td v-if="post.name">{{post.name}}</td>
+                        <td v-if="post.cat_name">{{post.cat_name}}</td>
                         <td><img :src="postImagePath(post.post_photo)" width="70" height="50" alt=""/></td>
                         <td>{{post.post_title}}</td>
                         <td>{{post.post_des | sortlength(100, "...")}}</td>

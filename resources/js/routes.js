@@ -49,6 +49,10 @@ export const routes = [
     {
         path: '/:slug',
         component: SingleBlog
+    },
+    {
+        path: '/category/:cat_slug',
+        component: PublicHome
     }
 
   ]

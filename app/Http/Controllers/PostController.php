@@ -8,11 +8,22 @@ use App\Models\Category;
 use App\Models\User;
 use Auth;
 use Image;
+use DB;
 
 class PostController extends Controller
 {
     public function all_post(){
-        $posts = Post::with('user', 'category')->orderBy('id', 'desc')->get();
+        //$posts = Post::with('user', 'category')->orderBy('id', 'desc')->get();
+        $posts = DB::table('posts')
+                        ->join('categories', 'posts.cat_slug', '=', 'categories.cat_slug')
+                        ->join('users', 'posts.user_id', '=', 'users.id')
+                        ->select(
+                            'posts.*', 
+                            'categories.cat_name', 
+                            'users.name'
+                            )
+                        ->orderBy('posts.id', 'desc')
+                        ->get();
         return response()->json([
             'posts' => $posts
         ], 200);
@@ -41,7 +52,7 @@ class PostController extends Controller
         $post->slug = $req->slug;
         $post->post_des = $req->post_des;
         $post->meta_des = $req->meta_des;
-        $post->cat_id = $req->cat_id;
+        $post->cat_slug = $req->cat_slug;
         $post->post_photo = $name;
         $post->user_id = Auth::user()->id;
         $post->save();
@@ -95,7 +106,7 @@ class PostController extends Controller
         $post->slug = $req->slug;
         $post->post_des = $req->post_des;
         $post->meta_des = $req->meta_des;
-        $post->cat_id = $req->cat_id;
+        $post->cat_slug = $req->cat_slug;
         $post->post_photo = $name;
         $post->user_id = Auth::user()->id;
         $post->save();

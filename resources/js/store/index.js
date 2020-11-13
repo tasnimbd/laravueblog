@@ -6,7 +6,8 @@ export default {
         post:[],
         blogpost:[],
         singlepost:[],
-        publiccategory:[]
+        publiccategory:[],
+        latestpost:[]
 
     },
     getters: {
@@ -24,6 +25,9 @@ export default {
         },
         publiccategory(state){
             return state.publiccategory
+        },
+        latestpost(state){
+            return state.latestpost
         }
     },
     actions: {
@@ -42,7 +46,7 @@ export default {
         allblogpost(context){
             axios.get('/blogpost')
             .then((res)=>{
-                context.commit('blogposts', res.data.blogposts)
+                context.commit('blogposts', res.data.posts)
             })
         },
         getPostBySlug(context,payload){
@@ -55,6 +59,24 @@ export default {
             axios.get('/categories')
             .then((res)=>{
                 context.commit('publiccategories', res.data.categories)
+            })
+        },
+        getPostByCatId(context,payload){
+            axios.get('/categorypost/'+payload)
+            .then((res) => {
+                context.commit('getPostByCatId', res.data.posts)
+            })
+        },
+        searchPost(context,payload){
+            axios.get('search?s='+payload)
+            .then((res) => {
+                context.commit('getSearchPost', res.data.posts)
+            })
+        },
+        latestpost(context){
+            axios.get('/latestpost')
+            .then((res)=>{
+                context.commit('latestpost', res.data.posts)
             })
         }
     },
@@ -73,6 +95,17 @@ export default {
         },
         publiccategories(state, payload) {
             return state.publiccategory = payload
-        }
+        },
+        getPostByCatId(state, data) {
+            return state.blogpost = data
+        },
+        getSearchPost(state, payload){
+            return state.blogpost = payload
+        },
+        latestpost(state, data) {
+            return state.latestpost = data
+        },
+
+
     }
 }

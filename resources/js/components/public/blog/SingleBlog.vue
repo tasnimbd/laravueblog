@@ -34,21 +34,15 @@
                     <p> {{singlepost.post_des}} </p>
                     <div class="bottom-article">
                         <ul class="meta-post">
-                        <li v-if="singlepost.user"><i class="icon-user"></i><a href="#"> {{singlepost.user.name}}</a></li>
-                        <li v-if="singlepost.category"><i class="icon-folder-open"></i><a href="#"> {{singlepost.category.cat_name}}</a></li>
+                            <li><i class="icon-calendar"></i><a href="#"> {{singlepost.created_at | timeformat}}</a></li>
+                        <li v-if="singlepost.name"><i class="icon-user"></i><a href="#"> {{singlepost.name}}</a></li>
+                        <li v-if="singlepost.cat_name"><i class="icon-folder-open"></i><a href="#"> {{singlepost.cat_name}}</a></li>
                         </ul>
                     </div>
                     </div>
                 </div>
                 </article>
-                <!-- author info -->
-                <div class="about-author">
-                <a href="#" class="thumbnail align-left"><img src="assets/public/frontend/img/avatar.png" alt="" /></a>
-                <h5><strong><a href="#">John doe</a></strong></h5>
-                <p>
-                    Qui ut ceteros comprehensam. Cu eos sale sanctus eligendi, id ius elitr saperet, ocurreret pertinacia pri an. No mei nibh consectetuer, semper ad qui, est rebum nulla argumentum ei.
-                </p>
-                </div>
+                
             
             </div>
             <BlogSidebar/>
@@ -63,20 +57,29 @@
 import BlogSidebar from "./BlogSidebar.vue";
 export default {
     name: "SingleBlog",
+    
     components:{
         BlogSidebar
     },
-    mounted(){
-        this.$store.dispatch('getPostBySlug', this.$route.params.slug);
-    },
+    
     computed: {
        singlepost(){
            return this.$store.getters.singlepost
        }
     },
     methods: {
-        
+        singlePost(){
+            this.$store.dispatch('getPostBySlug', this.$route.params.slug);
+        }
 
+    },
+    mounted(){
+        this.singlePost()
+    },
+    watch: {
+        $route(to, from){
+            this.singlePost()
+        }
     }
 }
 </script>

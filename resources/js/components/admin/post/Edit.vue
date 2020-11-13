@@ -37,11 +37,11 @@
 
                             <div class="form-group">
                                 <label>Select Category</label>
-                                <select class="form-control" name="cat_id" :class="{ 'is-invalid': form.errors.has('cat_id') }" v-model="form.cat_id">
+                                <select class="form-control" name="cat_slug" :class="{ 'is-invalid': form.errors.has('cat_slug') }" v-model="form.cat_slug">
                                     <option disabled value="">Select One</option>
-                                    <option v-for="category in getallCategory" :key="category.id" :value="category.id">{{category.cat_name}}</option>
+                                    <option v-for="category in getallCategory" :key="category.cat_slug" :value="category.cat_slug">{{category.cat_name}}</option>
                                 </select>
-                                 <has-error :form="form" field="cat_id"></has-error>
+                                 <has-error :form="form" field="cat_slug"></has-error>
                             </div>
 
                             <div class="form-group">
@@ -81,7 +81,7 @@ export default {
         post_title: '',
         post_des: '',
         post_photo: '',
-        cat_id: '',
+        cat_slug: '',
         meta_des: '',
         slug: '',
         user_id: ''
